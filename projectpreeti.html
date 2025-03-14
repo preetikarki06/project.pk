@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #af4c95;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        main {
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input[type="number"], button {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fitness Tracker</h1>
+        <p>Track your steps and monitor your progress.</p>
+    </header>
+
+    <main>
+        <section id="activity">
+            <h2>Track Your Steps</h2>
+            <form id="stepsForm">
+                <label for="steps">Enter steps today:</label>
+                <input type="number" id="steps" placeholder="Number of steps" required>
+                <button type="submit">Track Steps</button>
+            </form>
+        </section>
+
+        <section id="progress">
+            <h2>Your Progress</h2>
+            <p><strong>Total Steps: </strong><span id="totalSteps">0</span></p>
+            <p><strong>Total Distance: </strong><span id="totalDistance">0</span> meters</p>
+        </section>
+
+        <section id="goals">
+            <h2>Set Your Goal</h2>
+            <label for="goalSteps">Enter your goal steps:</label>
+            <input type="number" id="goalSteps" placeholder="Goal steps" required>
+            <button onclick="setGoal()">Set Goal</button>
+            <p><strong>Goal: </strong><span id="goal">Not set</span></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Fitness Tracker. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let totalSteps = 0;
+        let totalDistance = 0;
+        let goalSteps = 0;
+
+        // Function to calculate distance based on steps
+        function calculateDistance(steps) {
+            // Assume 1 step = 0.8 meters
+            return steps * 0.8;
+        }
+
+        // Event listener to handle the form submission
+        document.getElementById('stepsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const stepsInput = document.getElementById('steps').value;
+            const steps = parseInt(stepsInput);
+
+            if (steps > 0) {
+                totalSteps += steps;
+                totalDistance += calculateDistance(steps);
+                updateProgress();
+            }
+        });
+
+        // Function to update progress on the page
+        function updateProgress() {
+            document.getElementById('totalSteps').textContent = totalSteps;
+            document.getElementById('totalDistance').textContent = totalDistance.toFixed(2);
+        }
+
+        // Function to set the user's goal
+        function setGoal() {
+            const goalInput = document.getElementById('goalSteps').value;
+            goalSteps = parseInt(goalInput);
+
+            if (goalSteps > 0) {
+                document.getElementById('goal').textContent = goalSteps;
+            }
+        }
+
+        // Optional: Display a message when goal is reached
+        setInterval(function() {
+            if (totalSteps >= goalSteps && goalSteps > 0) {
+                alert('Congratulations! You have reached your goal!');
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
